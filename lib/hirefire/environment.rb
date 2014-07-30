@@ -58,7 +58,7 @@ module HireFire
         end
       end
 
-      Logger.info("#{ base.name } detected!")
+      Logger.instance.info("#{ base.name } detected!")
     end
 
     ##

@@ -1,47 +1,46 @@
 # encoding: utf-8
 
 module HireFire
+
   class Logger
+    autoload :ConsoleLogger, 'hirefire/logger/console_logger'
+    include Singleton
+
+
     def initialize
-      @logger = defined? Rails ? Rails.logger : HireFire::Logger::ConsoleLogger.new
+      if defined? Rails
+        @logger = Rails.logger
+      else
+        @logger = Logger::ConsoleLogger.new
+      end
     end
 
     ##
     # Outputs a messages to the console
     #
-    # @param [String] string prints a string to the console (green color)
+    # @param [String] string logs a string on the info level
     # @return [nil]
-    def self.info(string)
+    def info(string)
       @logger.info(string)
     end
 
     ##
     # Outputs an error to the console
     #
-    # @param [String] string prints a string to the console (red color)
+    # @param [String] string logs a string on the error level
     # @return [nil]
-    def self.error(string)
+    def error(string)
       @logger.error(string)
     end
 
     ##
     # Outputs a notice to the console
     #
-    # @param [String] string prints a string to the console (yellow color)
+    # @param [String] string logs a string on the warn level
     # @return [nil]
-    def self.warn(string)
-      logger.warn(string)
+    def warn(string)
+      @logger.warn(string)
     end
-
-    ##
-    # Outputs the data as if it were a regular 'puts' command
-    #
-    # Not in use.
-    # @param [String] string prints a string to the console (standard color)
-    # @return [nil]
-    #def self.normal(string)
-    #  puts string
-    #end
 
   end
 end
