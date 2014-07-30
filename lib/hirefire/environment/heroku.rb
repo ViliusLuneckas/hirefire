@@ -35,7 +35,7 @@ module HireFire
       rescue RestClient::Exception
         # Heroku library uses rest-client, currently, and it is quite
         # possible to receive RestClient exceptions through the client.
-        HireFire::Logger.message("Worker query request failed with #{ $!.class.name } #{ $!.message }")
+        HireFire::Logger.info("Worker query request failed with #{ $!.class.name } #{ $!.message }")
         nil
       end
 

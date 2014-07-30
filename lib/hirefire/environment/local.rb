@@ -58,7 +58,7 @@ module HireFire
 
           ##
           # Kill the last Freelance worker (self)
-          Logger.message("There are now #{ amount } workers.")
+          Logger.info("There are now #{ amount } workers.")
           shell.kill_process(Rush.my_process.pid)
           return
         end

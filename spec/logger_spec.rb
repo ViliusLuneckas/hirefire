@@ -14,7 +14,7 @@ describe HireFire::Logger do
     it do
       HireFire::Logger.expects(:puts).with("[#{ Time.now.strftime("%Y-%m-%d %H:%M:%S") }][\e[32mHireFire\e[0m] This has been logged.")
 
-      HireFire::Logger.message "This has been logged."
+      HireFire::Logger.info "This has been logged."
     end
   end
 
