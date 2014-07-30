@@ -2,7 +2,9 @@
 
 module HireFire
   class Logger
-    @logger = defined? Rails ? Rails.logger : HireFire::Logger::ConsoleLogger.new
+    def initialize
+      @logger = defined? Rails ? Rails.logger : HireFire::Logger::ConsoleLogger.new
+    end
 
     ##
     # Outputs a messages to the console
