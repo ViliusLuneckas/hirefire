@@ -5,13 +5,14 @@ module HireFire
   class Logger
     autoload :ConsoleLogger, 'hirefire/logger/console_logger'
     include Singleton
+    @logger = nil
 
 
     def initialize
       if defined? Rails
         @logger = Rails.logger
       else
-        @logger = Logger::ConsoleLogger.new
+        @logger = Logger::ConsoleLogger
       end
     end
 
