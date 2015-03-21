@@ -28,10 +28,11 @@ describe HireFire::Logger do
 
   context 'when running within rails' do
     before(:each) do
-      Rails = mock()
-      @logger = mock()
+      @logger = mock
+      defined?(Rails) ? Kernel.stubs(:Rails).returns(mock) : Rails = mock
+
       Rails.stubs(:logger).returns(@logger)
-      @logger_class = HireFire::Logger.clone                                
+      @logger_class = HireFire::Logger.clone
     end 
 
     it 'receives an info message and writes it to the logger' do
