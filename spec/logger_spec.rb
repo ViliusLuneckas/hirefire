@@ -1,9 +1,5 @@
 # encoding: utf-8
 
-require File.expand_path('../spec_helper', __FILE__)
-
-require 'timecop'
-
 describe HireFire::Logger do
 
   before do
@@ -31,7 +27,7 @@ describe HireFire::Logger do
   end
 
   context 'when running within rails' do
-    before(:each) do                                                            
+    before(:each) do
       Rails = mock()
       @logger = mock()
       Rails.stubs(:logger).returns(@logger)
