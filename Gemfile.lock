@@ -1,28 +1,43 @@
+PATH
+  remote: .
+  specs:
+    hirefire (0.1.4)
+      heroku (>= 1.4)
+      rush (~> 0.6.7)
+
 GEM
   remote: http://rubygems.org/
   specs:
-    configuration (1.2.0)
+    addressable (2.3.7)
     diff-lcs (1.1.2)
+    excon (0.41.0)
     fattr (2.2.0)
-    fuubar (0.0.3)
-      rspec (~> 2.0)
-      rspec-instafail (~> 0.1.4)
-      ruby-progressbar (~> 0.0.9)
-    heroku (1.20.1)
-      launchy (~> 0.3.2)
-      rest-client (>= 1.4.0, < 1.7.0)
+    heroku (2.41.0)
+      heroku-api (~> 0.3.7)
+      launchy (>= 0.3.2)
+      netrc (~> 0.7.7)
+      rest-client (~> 1.6.1)
+      rubyzip
+    heroku-api (0.3.19)
+      excon (~> 0.38)
+      multi_json (~> 1.8)
     infinity_test (1.0.2)
       notifiers (>= 1.1.0)
       watchr (>= 0.7)
-    launchy (0.3.7)
-      configuration (>= 0.0.5)
-      rake (>= 0.8.1)
-    mime-types (1.16)
+    json (1.8.2)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    mime-types (1.25.1)
     mocha (0.9.12)
+    multi_json (1.10.1)
+    netrc (0.7.7)
     notifiers (1.1.0)
     rake (0.8.7)
-    rest-client (1.6.1)
-      mime-types (>= 1.16)
+    rdoc (4.2.0)
+      json (~> 1.4)
+    rest-client (1.6.8)
+      mime-types (~> 1.16)
+      rdoc (>= 2.4.2)
     rspec (2.5.0)
       rspec-core (~> 2.5.0)
       rspec-expectations (~> 2.5.0)
@@ -30,9 +45,8 @@ GEM
     rspec-core (2.5.1)
     rspec-expectations (2.5.0)
       diff-lcs (~> 1.1.2)
-    rspec-instafail (0.1.6)
     rspec-mocks (2.5.0)
-    ruby-progressbar (0.0.9)
+    rubyzip (1.1.6)
     rush (0.6.7)
       session
     session (3.1.0)
@@ -44,10 +58,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  fuubar
-  heroku
+  hirefire!
   infinity_test
   mocha
+  rake
   rspec
-  rush
   timecop

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 $:.push File.expand_path('../lib', __FILE__)
 require 'hirefire/version'
 
@@ -24,7 +22,11 @@ Gem::Specification.new do |gem|
 
   ##
   # Production gem dependencies
-  gem.add_dependency 'heroku', ['>= 1.4']
-  gem.add_dependency 'rush',   ['~> 0.6.7']
-
+  gem.add_dependency 'heroku', '>= 1.4'
+  gem.add_dependency 'rush',   '~> 0.6.7'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'mocha'
+  gem.add_development_dependency 'timecop'
+  gem.add_development_dependency 'infinity_test'
 end
