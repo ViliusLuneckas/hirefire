@@ -1,57 +1,58 @@
 # encoding: utf-8
 
 describe HireFire::Logger do
+  before { Timecop.freeze(Time.now) }
 
-  before do
-    Timecop.freeze( Time.now )
-  end
+  let(:message) { 'This has been logged.' }
+  let(:logger) { HireFire::Logger.clone.instance }
+  let(:console_logger) { HireFire::Logger::ConsoleLogger }
 
   context 'when executed outside rails' do
-    it 'receives an info message and writes it to the standard output' do
-      HireFire::Logger::ConsoleLogger.expects(:puts).with("[#{ Time.now.strftime("%Y-%m-%d %H:%M:%S") }][\e[32mHireFire\e[0m] This has been logged.")
+    let(:time_str) { Time.now.strftime('%Y-%m-%d %H:%M:%S') }
 
-      HireFire::Logger.instance.info "This has been logged."
+    it 'receives an info message and writes it to the standard output' do
+      console_logger.expects(:puts).with("[#{time_str}][\e[32mHireFire\e[0m] #{message}")
+
+      logger.info message
     end
 
     it 'receives an error message and writes it to the standard output' do
-      HireFire::Logger::ConsoleLogger.expects(:puts).with("[#{ Time.now.strftime("%Y-%m-%d %H:%M:%S") }][\e[31mHireFire\e[0m] This has been logged.")
+      console_logger.expects(:puts).with("[#{time_str}][\e[31mHireFire\e[0m] #{message}")
 
-      HireFire::Logger.instance.error "This has been logged."
+      logger.error message
     end
 
     it 'receives a warning message and writes it to the standard output' do
-      HireFire::Logger::ConsoleLogger.expects(:puts).with("[#{ Time.now.strftime("%Y-%m-%d %H:%M:%S") }][\e[33mHireFire\e[0m] This has been logged.")
+      console_logger.expects(:puts).with("[#{time_str}][\e[33mHireFire\e[0m] #{message}")
 
-      HireFire::Logger.instance.warn "This has been logged."
+      logger.warn message
     end
   end
 
   context 'when running within rails' do
-    before(:each) do
-      @logger = mock
-      defined?(Rails) ? Kernel.stubs(:Rails).returns(mock) : Rails = mock
+    let(:rails_logger) { mock }
 
-      Rails.stubs(:logger).returns(@logger)
-      @logger_class = HireFire::Logger.clone
-    end 
+    before do
+      defined?(Rails) ? Kernel.stubs(:Rails).returns(mock) : Rails = mock
+      Rails.stubs(:logger).returns(rails_logger)
+    end
 
     it 'receives an info message and writes it to the logger' do
-      @logger.expects(:info).with("This has been logged.")
+      rails_logger.expects(:info).with(message)
 
-      @logger_class.instance.info "This has been logged."
+      logger.info message
     end
 
     it 'receives an error message and writes it to the logger' do
-      @logger.expects(:error).with("This has been logged.")
+      rails_logger.expects(:error).with(message)
 
-      @logger_class.instance.error "This has been logged."
+      logger.error message
     end
 
     it 'receives a warning message and writes it to the logger' do
-      @logger.expects(:warn).with("This has been logged.")
+      rails_logger.expects(:warn).with(message)
 
-      @logger_class.instance.warn "This has been logged."
+      logger.warn message
     end
   end
-
 end
