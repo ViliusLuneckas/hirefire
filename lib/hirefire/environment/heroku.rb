@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'heroku'
+require 'heroku-api'
 
 module HireFire
   module Environment
@@ -19,16 +19,11 @@ module HireFire
       #   @param [nil] amount
       #   @return [Fixnum] will request the amount of currently running workers from Heroku
       def workers(amount = nil)
-
-        #
-        # Returns the amount of Delayed Job
-        # workers that are currently running on Heroku
         if amount.nil?
-          return client.ps(ENV['APP_NAME']).select {|p| p['process'] =~ /worker.[0-9]+/}.length
+          client.get_ps(ENV['APP_NAME']).body.select { |ps| ps['process'] =~ /worker/ }.length
+        else
+          client.post_ps_scale(ENV['APP_NAME'], 'worker', amount)
         end
-
-        return client.ps_scale(ENV['APP_NAME'], {"type" => "worker", "qty" => amount})
-
       rescue RestClient::Exception
         # Heroku library uses rest-client, currently, and it is quite
         # possible to receive RestClient exceptions through the client.
@@ -37,10 +32,11 @@ module HireFire
       end
 
       ##
-      # @return [Heroku::Client] instance of the heroku client
+      # @return [Heroku::API] instance of the heroku client
       def client
-        @client ||= ::Heroku::Client.new(
-          ENV['HIREFIRE_EMAIL'], ENV['HIREFIRE_PASSWORD']
+        @client ||= ::Heroku::API.new(
+          :username => ENV['HIREFIRE_EMAIL'],
+          :password => ENV['HIREFIRE_PASSWORD']
         )
       end
 
