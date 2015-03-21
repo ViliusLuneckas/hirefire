@@ -24,13 +24,10 @@ module HireFire
         # Returns the amount of Delayed Job
         # workers that are currently running on Heroku
         if amount.nil?
-          return client.info(ENV['APP_NAME'])[:workers].to_i
+          return client.ps(ENV['APP_NAME']).select {|p| p['process'] =~ /worker.[0-9]+/}.length
         end
 
-        ##
-        # Sets the amount of Delayed Job
-        # workers that need to be running on Heroku
-        client.set_workers(ENV['APP_NAME'], amount)
+        return client.ps_scale(ENV['APP_NAME'], {"type" => "worker", "qty" => amount})
 
       rescue RestClient::Exception
         # Heroku library uses rest-client, currently, and it is quite
