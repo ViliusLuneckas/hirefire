@@ -2,3 +2,7 @@
 *.gem
 .yardoc/*
 .yardoc/**/*
+
+.bundle/
+.ruby-version
+vendor/

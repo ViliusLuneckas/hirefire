@@ -166,7 +166,7 @@ module HireFire
       # @return [Boolean] if the workers have been fired
       def fire
         if jobs == 0 and workers > min_workers
-          Logger.message("All queued jobs have been processed. " + (min_workers > 0 ? "Setting workers to #{min_workers}." : "Firing all workers."))
+          Logger.instance.info("All queued jobs have been processed. " + (min_workers > 0 ? "Setting workers to #{min_workers}." : "Firing all workers."))
           workers(min_workers)
 
           return true
@@ -182,7 +182,7 @@ module HireFire
       #
       # @return [nil]
       def log_and_hire(amount)
-        Logger.message("Hiring more workers so we have #{ amount } in total.")
+        Logger.instance.info("Hiring more workers so we have #{ amount } in total.")
         workers(amount)
       end
 

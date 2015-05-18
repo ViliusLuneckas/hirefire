@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require File.expand_path('../spec_helper', __FILE__)
-
 module HireFire
   module Backend
     ##
@@ -96,7 +94,7 @@ describe HireFire::Environment::Base do
       base.jobs    = 0
       base.workers = 1
 
-      HireFire::Logger.expects(:message).with('All queued jobs have been processed. Firing all workers.')
+      HireFire::Logger.instance.expects(:info).with('All queued jobs have been processed. Firing all workers.')
       base.expects(:workers).with(0).once
       base.fire
     end
@@ -106,7 +104,7 @@ describe HireFire::Environment::Base do
         base.jobs          = 0
         base.workers       = 10
 
-        HireFire::Logger.expects(:message).with('All queued jobs have been processed. Setting workers to 2.')
+        HireFire::Logger.instance.expects(:info).with('All queued jobs have been processed. Setting workers to 2.')
         base.expects(:workers).with(2).once
         base.fire
       end
@@ -132,7 +130,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 1
         base.workers = 0
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 1 in total.')
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 1 in total.')
         base.expects(:workers).with(1).once
         base.hire
       end
@@ -149,7 +147,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 15
         base.workers = 0
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 2 in total.')
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 2 in total.')
         base.expects(:workers).with(2).once
         base.hire
       end
@@ -158,7 +156,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 20
         base.workers = 1
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 2 in total.')
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 2 in total.')
         base.expects(:workers).with(2).once
         base.hire
       end
@@ -175,7 +173,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 25 # simulate that 5 jobs are already processed (30 - 5)
         base.workers = 3  # and 3 workers are hired
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 2 in total.').never
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 2 in total.').never
         base.expects(:workers).with(2).never
         base.hire
       end
@@ -185,7 +183,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 0
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 3 in total.').once
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 3 in total.').once
           base.expects(:workers).with(3).once
           base.hire
         end
@@ -201,7 +199,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 0
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 3 in total.').once
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 3 in total.').once
           base.expects(:workers).with(3).once
           base.hire
         end
@@ -217,7 +215,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 3
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 3 in total.').never
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 3 in total.').never
           base.expects(:workers).with(3).never
           base.hire
         end
@@ -233,7 +231,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 0
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 5 in total.').once
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 5 in total.').once
           base.expects(:workers).with(5).once
           base.hire
         end
@@ -243,7 +241,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 100
         base.workers = 5
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 5 in total.').never
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 5 in total.').never
         base.expects(:workers).with(5).never
         base.hire
       end
@@ -275,7 +273,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 1
         base.workers = 0
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 1 in total.')
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 1 in total.')
         base.expects(:workers).with(1).once
         base.hire
       end
@@ -292,7 +290,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 15
         base.workers = 0
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 2 in total.')
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 2 in total.')
         base.expects(:workers).with(2).once
         base.hire
       end
@@ -301,7 +299,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 20
         base.workers = 1
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 2 in total.')
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 2 in total.')
         base.expects(:workers).with(2).once
         base.hire
       end
@@ -318,7 +316,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 25 # simulate that 5 jobs are already processed (30 - 5)
         base.workers = 3  # and 3 workers are hired
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 2 in total.').never
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 2 in total.').never
         base.expects(:workers).with(2).never
         base.hire
       end
@@ -329,7 +327,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 0
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 3 in total.').once
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 3 in total.').once
           base.expects(:workers).with(3).once
           base.hire
         end
@@ -345,7 +343,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 0
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 3 in total.').once
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 3 in total.').once
           base.expects(:workers).with(3).once
           base.hire
         end
@@ -361,7 +359,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 3
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 3 in total.').never
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 3 in total.').never
           base.expects(:workers).with(3).never
           base.hire
         end
@@ -377,7 +375,7 @@ describe HireFire::Environment::Base do
           base.jobs    = 100
           base.workers = 0
 
-          HireFire::Logger.expects(:message).with('Hiring more workers so we have 10 in total.').once
+          HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 10 in total.').once
           base.expects(:workers).with(10).once
           base.hire
         end
@@ -387,7 +385,7 @@ describe HireFire::Environment::Base do
         base.jobs    = 100
         base.workers = 5
 
-        HireFire::Logger.expects(:message).with('Hiring more workers so we have 5 in total.').never
+        HireFire::Logger.instance.expects(:info).with('Hiring more workers so we have 5 in total.').never
         base.expects(:workers).with(5).never
         base.hire
       end

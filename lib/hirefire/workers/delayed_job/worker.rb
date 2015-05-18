@@ -27,10 +27,10 @@ module Delayed
     #      otherwise interrupt workers and leave jobs unfinished.
     #
     def start
-      HireFire::Logger.message "Starting job worker!"
+      HireFire::Logger.instance.info "Starting job worker!"
 
-      trap('TERM') { HireFire::Logger.message 'Exiting...'; $exit = true }
-      trap('INT')  { HireFire::Logger.message 'Exiting...'; $exit = true }
+      trap('TERM') { HireFire::Logger.instance.info 'Exiting...'; $exit = true }
+      trap('INT')  { HireFire::Logger.instance.info 'Exiting...'; $exit = true }
 
       queued = Delayed::Job.new
 
@@ -49,7 +49,7 @@ module Delayed
         if count.zero?
           sleep(1)
         else
-          HireFire::Logger.message "#{count} jobs processed at %.4f j/s, %d failed ..." % [count / realtime, result.last]
+          HireFire::Logger.instance.info "#{count} jobs processed at %.4f j/s, %d failed ..." % [count / realtime, result.last]
         end
 
         ##
